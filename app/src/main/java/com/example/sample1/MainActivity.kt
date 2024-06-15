@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -12,9 +13,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    fun clickHandler() {
+    fun clickHandler(view: View) {
         Log.i("MainActivity-clickhandler","button clicked")
-        val dialIntent: Intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:9789023677"))  //intent= intention
-        startActivity(dialIntent)
+        var webIntent: Intent = Intent(Intent.ACTION_VIEW,Uri.parse("https://www.apple.com/"))
+        startActivity(webIntent)
     }
 }
