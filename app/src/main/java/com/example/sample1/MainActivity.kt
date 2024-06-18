@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         Log.i("MainActivity-clickhandler","button clicked")
 
         var hIntent:Intent = Intent(this,newpage::class.java)
+        hIntent.putExtra("mykey","android-sample1")
         startActivity(hIntent)
     }
 }
