@@ -1,7 +1,6 @@
 package com.example.sample1
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,7 +14,14 @@ class MainActivity : AppCompatActivity() {
 
     fun clickHandler(view: View) {
         Log.i("MainActivity-clickhandler","button clicked")
-        var webIntent: Intent = Intent(Intent.ACTION_VIEW,Uri.parse("https://www.apple.com/"))
-        startActivity(webIntent)
+
+        var hIntent:Intent = Intent(this,newpage::class.java)
+        startActivity(hIntent)
     }
+}
+
+
+fun main(){
+    val output = {a: Double -> a%2.0 ==0.0 }
+    print(output(4.0))
 }
