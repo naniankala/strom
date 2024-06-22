@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import network.MarsApiService
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     fun clickHandler(view: View) {
         Log.i("MainActivity-clickhandler","button clicked")
 
-        var hIntent:Intent = Intent(this,newpage::class.java)
+        var hIntent:Intent = Intent(this,MarsApiService::class.java)
         hIntent.putExtra("mykey","android-sample1")
         startActivity(hIntent)
     }
