@@ -1,62 +1,48 @@
 package com.example.sample1
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import database.Item
+import database.ItemDao
+import database.ItemRoomDatabase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import network.MarsAdapter
-import network.MarsApi
-import network.MarsPhoto
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 
-class HomeActivity : AppCompatActivity(){
-    var TAG = HomeActivity::class.java.simpleName    //"HomeActivity"
-
-    lateinit var marsRecyclerView:RecyclerView
-    lateinit var marsAdapter: MarsAdapter
-    lateinit var photos:List<MarsPhoto>
+class HomeActivity : AppCompatActivity() {
+    lateinit var dao: ItemDao
+    lateinit var tvHome:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // enableEdgeToEdge()
         setContentView(R.layout.activity_home)
-        marsRecyclerView = findViewById(R.id.recyclerViewUrls)
-        marsRecyclerView.layoutManager = LinearLayoutManager(this)
-        photos = ArrayList()
-        marsAdapter = MarsAdapter(photos)
-        marsRecyclerView.adapter = marsAdapter
+        tvHome = findViewById(R.id.tvHome)
+        var  database = ItemRoomDatabase.getDatabase(this)
+        dao = database.itemDao()
 
-        // marsAdapter = MarsAdapter(photos)
-
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
     }
-    private fun getMarsPhotos() {
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+
+    fun insertDb(view: View) {
         GlobalScope.launch {
-
-            var listMarsPhotos =   MarsApi.retrofitService.getPhotos()
-            photos = listMarsPhotos
-            // photos = listMarsPhotos
-            marsAdapter.listMarsPhotos = listMarsPhotos
-            marsAdapter.notifyDataSetChanged()
-            //   var tvHome:TextView = findViewById(R.id.tvHome)
-//            tvHome.setText(listMarsPhotos.get(1).imgSrc)
-            Log.i("homeactiviy",listMarsPhotos.size.toString())
-            Log.i("homeactivity-url",listMarsPhotos.get(1).imgSrc)
-
+            val item = Item(777,"fruits",111.0,22)
+            dao.insert(item)
 
         }
     }
 
-    fun getJson(view: View) {
-        getMarsPhotos()
+    fun findItemDb(view: View) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val item = dao.getItem(777).first()
+            tvHome.setText(item.itemName)
+        }
     }
 }

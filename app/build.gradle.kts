@@ -2,11 +2,19 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10" apply true
+    id("kotlin-kapt")
+    id("com.google.devtools.ksp") version "2.0.0-1.0.21"
 }
 
 android {
     namespace = "com.example.sample1"
     compileSdk = 34
+    buildFeatures{
+        viewBinding = true
+        dataBinding = true
+    }
+
+
 
     defaultConfig {
         applicationId = "com.example.sample1"
@@ -34,6 +42,9 @@ android {
 }
 
 dependencies {
+    implementation("androidx.room:room-common:2.6.0")
+    implementation("androidx.room:room-ktx:2.6.0")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
